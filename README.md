@@ -1,10 +1,20 @@
-# koonix.docker
+# ansible-docker
 
 Collection of Ansible roles to install Docker.
 
 ## Roles
 
 ### docker
+
+Install the latest versions of Docker and the essential plugins Buildx and Compose,
+per [the official instructions](https://docs.docker.com/engine/install).
+
+Supported operating systems:
+
+- Debian
+- Ubuntu
+
+#### Variables
 
 | Variable                                        | Description |
 |-------------------------------------------------|-------------|
