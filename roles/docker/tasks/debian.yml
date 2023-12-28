@@ -1,0 +1,88 @@
+- name: Create dirs
+  ansible.builtin.file:
+    state: directory
+    path: '{{ item.path }}'
+    mode: '{{ item.mode | default("755") }}'
+    owner: root
+    group: root
+  loop:
+    - path: /etc/apt/keyrings
+    - path: /etc/docker
+
+- name: Install templates
+  ansible.builtin.template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode | default("644") }}'
+    owner: root
+    group: root
+  loop:
+    - src: daemon.json.j2
+      dest: /etc/docker/daemon.json
+
+- name: Remove unofficial Docker packages
+  ansible.builtin.apt:
+    state: absent
+    name:
+      - docker
+      - docker.io
+      - docker-doc
+      - docker-registry
+      - docker-compose
+      - docker-compose-v2
+      - podman-docker
+      - containerd
+      - runc
+
+- name: Install prerequisite packages
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - bash
+      - wget
+      - gpg
+
+- name: Add Docker's GPG key
+  ansible.builtin.shell:
+    executable: /usr/bin/bash
+    creates: '{{ dest }}'
+    cmd: |
+      set -eu -o pipefail
+      wget --no-verbose --output-document=- '{{ src }}' | gpg --dearmor --output '{{ dest }}'
+  vars:
+    src: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+    dest: /etc/apt/keyrings/docker.gpg
+
+- name: Add Docker's repository to apt sources
+  ansible.builtin.shell:
+    cmd: >
+      printf 'deb [arch=%s signed-by=%s] %s %s stable\n'
+      "$(dpkg --print-architecture)"
+      '{{ key }}'
+      '{{ url }}'
+      "$(. /etc/os-release && echo "$VERSION_CODENAME")"
+      > '{{ dest }}'
+  vars:
+    key: /etc/apt/keyrings/docker.gpg
+    dest: /etc/apt/sources.list.d/docker.list
+    url: https://download.docker.com/linux/{{ ansible_distribution | lower }}
+  changed_when: false
+
+- name: Install Docker packages
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+      - python3-docker
+
+- name: Start Docker's service
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true

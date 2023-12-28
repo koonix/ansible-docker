@@ -1,0 +1,11 @@
+namespace: koonix
+name: docker
+version: 0.1.0
+description: Collection of roles to install Docker.
+repository: https://github.com/koonix/ansible-docker
+issues:     https://github.com/koonix/ansible-docker/issues
+authors: [ 'koonix <me@koonix.org>' ]
+license: [ 'MIT' ]
+readme: README.md
+tags:
+  - docker

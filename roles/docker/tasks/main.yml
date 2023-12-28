@@ -1,0 +1,14 @@
+- name: Check whether this role supports the target OS
+  ansible.builtin.fail:
+    msg: This role does not support {{ distro }}
+  when: not ( os == 'Linux' and ( distro == 'Debian' or distro == 'Ubuntu' ) )
+  vars:
+    os: '{{ ansible_system }}'
+    distro: '{{ ansible_distribution }}'
+
+- name: Install Docker for Debian/Ubuntu
+  ansible.builtin.include_tasks:
+    file: debian.yml
+  when: distro == 'Debian' or distro == 'Ubuntu'
+  vars:
+    distro: '{{ ansible_distribution }}'
