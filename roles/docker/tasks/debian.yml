@@ -19,6 +19,7 @@
   loop:
     - src: daemon.json.j2
       dest: /etc/docker/daemon.json
+  notify: docker_daemon_restart
 
 - name: Remove unofficial Docker packages
   ansible.builtin.apt:
@@ -86,3 +87,6 @@
     name: docker
     state: started
     enabled: true
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
