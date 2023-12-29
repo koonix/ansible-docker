@@ -1,7 +1,6 @@
 {% if docker_daemon_config_log_rotation %}
-  {% set log_opts = docker_daemon_config['log-opts'] | default({}) %}
-  {% set log_opts = log_opts | combine({ 'max-size': '10m', 'max-file': '3' }) %}
-  {% set docker_daemon_config['log-opts'] = log_opts %}
+{% set log_opts = docker_daemon_config['log-opts'] | default({}) %}
+{% set log_opts = log_opts | combine({ 'max-size': '10m', 'max-file': '3' }) %}
+{% set docker_daemon_config = docker_daemon_config | ansible.builtin.combine({ 'log-opts': log_opts }) %}
 {% endif %}
-
 {{ docker_daemon_config | ansible.builtin.to_nice_json }}
