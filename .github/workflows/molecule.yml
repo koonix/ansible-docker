@@ -12,6 +12,9 @@ on:
 
   workflow_dispatch:
 
+env:
+  PY_COLORS: '1'
+
 jobs:
 
   molecule:
