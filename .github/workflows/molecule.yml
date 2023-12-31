@@ -44,6 +44,6 @@ jobs:
 
 # footnote:
 #   molecule versions 6.0.0 to 6.0.3 (the latest version at the time of writing)
-#   have issues calling ansible-galaxy in order to pull dependent collections.
+#   have issues pulling dependencies using ansible-galaxy.
 #   we're using the latest 5.x.x as a workaround.
 #   https://github.com/ansible/molecule/issues/4015
