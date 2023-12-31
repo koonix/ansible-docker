@@ -1,0 +1,8 @@
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+
+platforms:
+  - name: molecule-koonix-docker
+    box: debian/bookworm64
