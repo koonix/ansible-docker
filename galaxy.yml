@@ -1,6 +1,6 @@
 namespace: koonix
 name: docker
-version: 0.1.2
+version: 0.1.3
 description: Collection of roles to install Docker.
 repository: https://github.com/koonix/ansible-docker
 issues:     https://github.com/koonix/ansible-docker/issues
