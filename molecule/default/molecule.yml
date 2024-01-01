@@ -4,5 +4,5 @@ driver:
     name: libvirt
 
 platforms:
-  - name: molecule-koonix-docker
-    box: debian/bookworm64
+  - { name: molecule-koonix-docker-debian, box: debian/bookworm64 }
+  - { name: molecule-koonix-docker-fedora, box: generic/fedora39  }

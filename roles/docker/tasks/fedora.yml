@@ -1,0 +1,64 @@
+- name: Create dirs
+  ansible.builtin.file:
+    state: directory
+    path: '{{ item.path }}'
+    mode: '{{ item.mode | default("755") }}'
+    owner: root
+    group: root
+  loop:
+    - path: /etc/docker
+
+- name: Install Docker daemon config
+  ansible.builtin.template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode | default("644") }}'
+    owner: root
+    group: root
+  loop:
+    - src: daemon.json.j2
+      dest: /etc/docker/daemon.json
+  notify: docker_daemon_restart
+
+- name: Remove old Docker packages
+  ansible.builtin.dnf:
+    state: absent
+    name:
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-selinux
+      - docker-engine-selinux
+      - docker-engine
+
+- name: Add Docker's repository
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/fedora/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    owner: root
+    group: root
+    mode: '644'
+
+- name: Install Docker packages
+  ansible.builtin.dnf:
+    update_cache: true
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+      - python3-docker
+
+- name: Start Docker's service
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
