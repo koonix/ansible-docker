@@ -9,16 +9,12 @@
         ansible_distribution == 'Ubuntu' or
         ansible_distribution == 'Fedora'
 
-- name: Install Docker for Debian/Ubuntu
+- name: Install Docker (Debian/Ubuntu)
   ansible.builtin.include_tasks:
     file: debian.yml
-  when: distro == 'Debian' or distro == 'Ubuntu'
-  vars:
-    distro: '{{ ansible_distribution }}'
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-- name: Install Docker for Fedora
+- name: Install Docker (Fedora)
   ansible.builtin.include_tasks:
     file: fedora.yml
-  when: distro == 'Fedora'
-  vars:
-    distro: '{{ ansible_distribution }}'
+  when: ansible_distribution == 'Fedora'
