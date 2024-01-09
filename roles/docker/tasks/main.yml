@@ -1,7 +1,7 @@
 - name: Check whether this role supports the target OS
   ansible.builtin.assert:
-    success_msg: This role supports {{ ansible_distribution }}
     fail_msg: This role does not support {{ ansible_distribution }}
+    quiet: true
     that:
       - ansible_system == 'Linux'
       - |
