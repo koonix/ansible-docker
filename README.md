@@ -13,6 +13,7 @@ Supported operating systems:
 
 - Debian
 - Ubuntu
+- Fedora
 
 #### Variables
 
