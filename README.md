@@ -19,7 +19,7 @@ Supported operating systems:
 
 | Variable                                        | Description |
 |-------------------------------------------------|-------------|
-| `docker_daemon_config`                          | Docker daemon's config object to convert to json and place in `/etc/docker/daemon.json`. Default: `{}` |
+| `docker_daemon_config`                          | Docker daemon's config object to convert to json and write to `/etc/docker/daemon.json`. Default: `{}` |
 | `docker_daemon_config_log_rotation`             | Whether to configure the docker daemon to [rotate logs](https://docs.docker.com/config/containers/logging/configure/#configure-the-default-logging-driver). Default: `true` |
 
 #### Usage
