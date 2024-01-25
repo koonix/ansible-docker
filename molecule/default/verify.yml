@@ -1,0 +1,8 @@
+- name: Verify
+  hosts: all
+  become: true
+  tasks:
+    - name: Check whether Docker is running
+      ansible.builtin.command:
+        argv: [ docker, stats, --no-stream ]
+      changed_when: false
