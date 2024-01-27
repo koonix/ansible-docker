@@ -1,5 +1,7 @@
 # ansible-docker
 
+[![Latest Version](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkoonix%2Fansible-docker%2Fmain%2Fgalaxy.yml&query=version&label=Latest%20Version&color=%23347d39)](https://github.com/koonix/ansible-docker/tags)
+
 Ansible roles for installing Docker.
 
 ## Roles
